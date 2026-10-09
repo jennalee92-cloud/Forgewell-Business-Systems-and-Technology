@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@1,6..72,500&display=swap');
+
+:root {
+  font-family: 'Manrope', 'Segoe UI', sans-serif;
+  color: #1e342b;
+  background: #f5f6f0;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  --paper: #f5f6f0;
+  --paper-deep: #e8eee7;
+  --ink: #1e342b;
+  --ink-soft: #526158;
+  --forest: #17372e;
+  --forest-dark: #102a22;
+  --line: #d2d9d0;
+  --coral: #ad4631;
+  --lime: #d8ea8d;
+  --mono: 'DM Mono', Consolas, monospace;
+  --display: 'Newsreader', Georgia, serif;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.65;
+  letter-spacing: 0;
+}
+
+button, input, select, textarea { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+a { color: inherit; }
+button { color: inherit; }
+::selection { color: var(--forest-dark); background: var(--lime); }
+
+:focus-visible {
+  outline: 3px solid var(--coral);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
