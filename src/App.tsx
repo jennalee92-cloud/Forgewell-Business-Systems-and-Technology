@@ -82,6 +82,7 @@ function App() {
     const motion = gsap.matchMedia()
     motion.add('(prefers-reduced-motion: no-preference)', () => {
       const entrance = gsap.timeline({ defaults: { ease: 'power3.out' } })
+
       entrance
         .from('.hero-eyebrow', { y: 12, autoAlpha: 0, duration: 0.45 })
         .from('.hero-title', { y: 28, autoAlpha: 0, duration: 0.72 }, '-=0.12')
@@ -192,10 +193,10 @@ function App() {
               <svg className="schematic-wires" viewBox="0 0 520 360" role="img" aria-labelledby="wire-title wire-description">
                 <title id="wire-title">A business system taking shape</title>
                 <desc id="wire-description">Separate inputs connect through a shared operating system to a clearer business workflow.</desc>
-                <path className="wire wire-muted" d="M58 86 C134 86 125 176 220 176" />
-                <path className="wire wire-muted" d="M58 272 C134 272 125 184 220 184" />
-                <path className="wire wire-main" d="M245 180 C322 180 302 94 414 94" />
-                <path className="wire wire-main wire-low" d="M245 180 C322 180 302 268 414 268" />
+                <path className="wire wire-muted" pathLength="1" d="M58 86 C134 86 125 176 220 176" />
+                <path className="wire wire-muted" pathLength="1" d="M58 272 C134 272 125 184 220 184" />
+                <path className="wire wire-main" pathLength="1" d="M245 180 C322 180 302 94 414 94" />
+                <path className="wire wire-main wire-low" pathLength="1" d="M245 180 C322 180 302 268 414 268" />
                 <circle className="wire-node" cx="220" cy="180" r="5" />
                 <circle className="wire-node wire-node-end" cx="414" cy="94" r="5" />
                 <circle className="wire-node wire-node-end" cx="414" cy="268" r="5" />
@@ -283,7 +284,7 @@ function App() {
                 </div>
                 <p className="tool-footnote">This is a starting point, not a score or a one-size-fits-all answer.</p>
               </div>
-              <div className="forge-readout" aria-live="polite" aria-atomic="true">
+              <div className="forge-readout" key={selectedChallenges.join('|') || 'empty'} aria-live="polite" aria-atomic="true">
                 <div className="tool-topline"><span>02 / SHAPE A RESPONSE</span><span className="live-indicator"><i /> LIVE</span></div>
                 {selected.length === 0 ? (
                   <div className="readout-empty">

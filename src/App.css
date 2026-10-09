@@ -57,10 +57,25 @@ h1 em, h2 em { color: var(--coral); font-family: var(--display); font-weight: 50
 .axis-y { top: 0; left: 50%; width: 1px; height: 100%; }
 .schematic-wires { position: absolute; z-index: 2; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .wire { fill: none; stroke: var(--lime); stroke-width: 1.4; }
-.wire-muted { stroke: rgba(245, 246, 240, .42); stroke-dasharray: 5 6; }
+.wire-muted { stroke: rgba(245, 246, 240, .42); }
 .wire-low { stroke: var(--coral); }
 .wire-node { fill: var(--lime); }
 .wire-node-end { fill: var(--coral); }
+@keyframes system-line-draw { to { stroke-dashoffset: 0; } }
+@keyframes system-core-reveal { from { opacity: 0; } to { opacity: 1; } }
+@keyframes system-node-reveal { from { opacity: 0; transform: scale(0); } to { opacity: 1; transform: scale(1); } }
+@keyframes system-chip-reveal { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: no-preference) {
+  .wire-muted { stroke-dasharray: 1; stroke-dashoffset: 1; animation: system-line-draw .72s ease-in-out 1.55s both; }
+  .wire-muted:nth-of-type(2) { animation-delay: 1.7s; }
+  .system-core { animation: system-core-reveal .36s ease-out 2.3s both; }
+  .wire-main { stroke-dasharray: 1; stroke-dashoffset: 1; animation: system-line-draw .72s ease-in-out 2.42s both; }
+  .wire-main.wire-low { animation-delay: 2.56s; }
+  .wire-node { transform-box: fill-box; transform-origin: center; animation: system-node-reveal .28s cubic-bezier(.34,1.56,.64,1) 3.15s both; }
+  .wire-node-end { animation-delay: 3.22s; }
+  .schematic-chip { animation: system-chip-reveal .3s ease-out 3.2s both; }
+  .chip-two, .chip-three, .chip-four { animation-delay: 3.32s; }
+}
 .schematic-chip { position: absolute; z-index: 3; display: flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 9px; border: 1px solid rgba(243, 241, 235, .22); color: var(--paper); background: rgba(7, 8, 9, .94); font-size: 10px; }
 .schematic-chip b { color: var(--lime); font-family: var(--mono); font-size: 9px; font-weight: 400; }
 .chip-input { left: 3%; }
@@ -126,6 +141,10 @@ h1 em, h2 em { color: var(--coral); font-family: var(--display); font-weight: 50
 .live-indicator { display: inline-flex; align-items: center; gap: 7px; color: var(--lime); }
 .live-indicator i { width: 6px; height: 6px; background: var(--lime); }
 .readout-empty, .readout-content { flex: 1; padding: 25px 0 30px; }
+@keyframes forge-readout-shift { from { opacity: .72; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: no-preference) {
+  .forge-readout { animation: forge-readout-shift .3s ease-out both; }
+}
 .empty-orbit { position: relative; display: grid; place-items: center; width: 94px; height: 94px; margin-bottom: 22px; border: 1px solid rgba(216, 234, 141, .45); border-radius: 50%; }
 .empty-orbit::before, .empty-orbit::after { position: absolute; inset: 11px; border: 1px solid rgba(245, 246, 240, .2); border-radius: 50%; content: ''; }
 .empty-orbit::after { inset: 23px; border-color: rgba(216, 234, 141, .35); }
@@ -143,7 +162,7 @@ h1 em, h2 em { color: var(--coral); font-family: var(--display); font-weight: 50
 .recommendation > span { color: var(--lime); font-family: var(--mono); font-size: 9px; text-transform: uppercase; }
 .recommendation p { margin: 3px 0 0; color: rgba(245, 246, 240, .78); font-size: 12px; }
 .forge-stages { display: grid; grid-template-columns: repeat(6, 1fr); margin-inline: -28px; border-top: 1px solid rgba(245, 246, 240, .2); }
-.forge-stages span { display: grid; gap: 5px; min-height: 58px; padding: 9px 5px; border-right: 1px solid rgba(245, 246, 240, .14); color: rgba(245, 246, 240, .5); font-size: 9px; text-align: center; }
+.forge-stages span { display: grid; gap: 5px; min-height: 58px; padding: 9px 5px; border-right: 1px solid rgba(245, 246, 240, .14); color: rgba(245, 246, 240, .5); font-size: 9px; text-align: center; transition: color .24s ease, background-color .24s ease; }
 .forge-stages span:last-child { border-right: 0; }
 .forge-stages b { color: rgba(245, 246, 240, .4); font-size: 8px; }
 .forge-stages .is-lit { color: var(--paper); background: rgba(216, 234, 141, .07); }
