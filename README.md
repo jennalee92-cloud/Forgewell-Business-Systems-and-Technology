@@ -18,10 +18,11 @@ npm run lint
 
 ## Experience
 
-- The Business Forge is an interactive, multi-select diagnostic that connects common business friction to practical starting points.
+- The Business Forge is an interactive, multi-select diagnostic that connects common business friction to practical starting points; it is not a lead score or quote.
 - Forgewell Lab contains illustrative workflow and website-system demonstrations. They are examples, not client results.
-- The assessment builds a working brief in the browser and can copy it to the clipboard. It does not transmit or persist answers.
-- Consultation preferences include Zoom and FaceTime. Scheduling, payment, and CRM submission are not connected yet.
+- Services are organized around Build, Automate, and Optimize, with audience, problem, and deliverable descriptions.
+- The project inquiry validates required fields and prepares a `mailto:` draft to Forgewell. The visitor must send it from their email app; the website has no server-side email delivery, spam protection, or CRM integration.
+- Scheduling and payment are not connected. The site does not claim that an email draft was sent.
 
 ## Technology choices
 
@@ -31,3 +32,5 @@ npm run lint
 - Scrolling stays native; Lenis is not included so browser and assistive-technology behavior remain predictable.
 
 The assessment and consultation flow should connect to a CRM or scheduling provider only after those services and privacy requirements are selected.
+
+The static sitemap and robots file use the current Vercel production URL. Update those URLs and the canonical metadata when a custom domain is established.

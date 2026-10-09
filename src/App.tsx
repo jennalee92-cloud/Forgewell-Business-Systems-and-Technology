@@ -7,15 +7,6 @@ gsap.registerPlugin(useGSAP)
 const currentYear = new Date().getFullYear()
 
 type ChallengeId = 'manual' | 'owner' | 'disconnected' | 'growth'
-type AssessmentBrief = {
-  stage: string
-  priority: string
-  friction: string
-  timeline: string
-  meeting: string
-  investment: string
-}
-
 const challenges: { id: ChallengeId; title: string; detail: string; response: string }[] = [
   {
     id: 'manual',
@@ -44,13 +35,33 @@ const challenges: { id: ChallengeId; title: string; detail: string; response: st
 ]
 
 const serviceRows = [
-  ['BUILD', 'Websites and digital experiences that do a job in the business.'],
-  ['AUTOMATE', 'Practical AI and workflows that reduce repetitive work.'],
-  ['SYSTEMIZE', 'Processes and SOPs that get important knowledge out of people’s heads.'],
-  ['ORGANIZE', 'Project and operational systems that make ownership clearer.'],
-  ['LAUNCH', 'Business setup and licensing navigation, without legal advice.'],
-  ['OPTIMIZE', 'Ongoing improvements, technology support, and strategic thinking.'],
-  ['BESPOKE', 'A considered solution when the right answer crosses disciplines.'],
+  {
+    title: 'BUILD',
+    audience: 'For new businesses and teams ready for a stronger digital presence',
+    problem: 'A website no longer fits the business—or there is no clear digital foundation yet.',
+    deliverables: 'Custom websites · redesigns · digital integrations · business setup guidance',
+  },
+  {
+    title: 'AUTOMATE',
+    audience: 'For teams repeating the same admin, handoffs, and data entry',
+    problem: 'Work slows down as information moves manually between people and tools.',
+    deliverables: 'Practical AI workflows · software connections · process automation',
+  },
+  {
+    title: 'OPTIMIZE',
+    audience: 'For businesses that need clearer operations and follow-through',
+    problem: 'Important work depends on memory, unclear ownership, or undocumented steps.',
+    deliverables: 'Project management · SOPs · workflow improvement · implementation · ongoing support',
+  },
+]
+
+const inquiryServices = [
+  'Build or redesign a website',
+  'Automate a workflow',
+  'Document a process or SOP',
+  'Implement a project or business system',
+  'Improve operations',
+  'I am not sure yet',
 ]
 
 const stages = [
@@ -75,8 +86,7 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [selectedChallenges, setSelectedChallenges] = useState<ChallengeId[]>([])
   const [demoView, setDemoView] = useState<'manual' | 'structured'>('manual')
-  const [assessment, setAssessment] = useState<AssessmentBrief | null>(null)
-  const [copyMessage, setCopyMessage] = useState('')
+  const [inquiryDraft, setInquiryDraft] = useState('')
 
   useGSAP(() => {
     const motion = gsap.matchMedia()
@@ -104,37 +114,23 @@ function App() {
     )
   }
 
-  const handleAssessment = (event: FormEvent<HTMLFormElement>) => {
+  const handleInquiry = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const values = new FormData(event.currentTarget)
-    setAssessment({
-      stage: String(values.get('stage')),
-      priority: String(values.get('priority')),
-      friction: String(values.get('friction')),
-      timeline: String(values.get('timeline')),
-      meeting: String(values.get('meeting')),
-      investment: String(values.get('investment')),
-    })
-    setCopyMessage('')
-  }
+    const details = [
+      ['Name', values.get('name')],
+      ['Email', values.get('email')],
+      ['Help needed', values.get('service')],
+      ['Project details', values.get('project')],
+      ['Business', values.get('business')],
+      ['Current website', values.get('website')],
+      ['Approximate investment range', values.get('budget')],
+      ['Desired timeline', values.get('timeline')],
+    ].filter(([, value]) => String(value ?? '').trim())
 
-  const copyAssessment = async () => {
-    if (!assessment) return
-    const summary = [
-      'FORGEWELL BUSINESS BRIEF',
-      `Business stage: ${assessment.stage}`,
-      `What I want to improve: ${assessment.priority}`,
-      `Where work gets stuck: ${assessment.friction}`,
-      `Timeline: ${assessment.timeline}`,
-      `Meeting preference: ${assessment.meeting}`,
-      `Investment: ${assessment.investment}`,
-    ].join('\n')
-    try {
-      await navigator.clipboard.writeText(summary)
-      setCopyMessage('Brief copied.')
-    } catch {
-      setCopyMessage('Copy was blocked. Select the brief above to copy it manually.')
-    }
+    const body = details.map(([label, value]) => `${label}: ${String(value).trim()}`).join('\n\n')
+    const subject = `Forgewell project inquiry: ${String(values.get('service'))}`
+    setInquiryDraft(`mailto:forgewellbst@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`)
   }
 
   const selected = challenges.filter((challenge) => selectedChallenges.includes(challenge.id))
@@ -165,7 +161,7 @@ function App() {
           <a href="#what-we-build" onClick={closeMenu}>What we build</a>
           <a href="#how-we-work" onClick={closeMenu}>How we work</a>
           <a href="#about" onClick={closeMenu}>About</a>
-          <a className="nav-cta" href="#assessment" onClick={closeMenu}>Start building <span aria-hidden="true">&rarr;</span></a>
+          <a className="nav-cta" href="#assessment" onClick={closeMenu}>Tell us what you need <span aria-hidden="true">&rarr;</span></a>
         </nav>
       </header>
 
@@ -173,11 +169,11 @@ function App() {
         <section className="hero section-wrap" id="top" aria-labelledby="hero-title">
           <div className="hero-copy">
             <p className="eyebrow hero-eyebrow"><span className="eyebrow-line" /> Business systems + technology</p>
-            <h1 className="hero-title" id="hero-title">Your business shouldn’t be <em>this hard</em> to run.</h1>
-            <p className="hero-intro">We find the friction behind the day-to-day and build the systems, technology, and processes that help your business work better.</p>
+            <h1 className="hero-title" id="hero-title">Build the systems behind a <em>better business.</em></h1>
+            <p className="hero-intro">Custom websites, practical automation, and better business systems for the work you need to get done.</p>
             <div className="hero-actions">
-              <a className="button button-dark" href="#assessment">Start building <span aria-hidden="true">&rarr;</span></a>
-              <a className="text-link" href="#business-forge">Assess your business <span aria-hidden="true">&darr;</span></a>
+              <a className="button button-dark" href="#assessment">Tell us what you need <span aria-hidden="true">&rarr;</span></a>
+              <a className="text-link" href="#what-we-build">Explore what we build <span aria-hidden="true">&darr;</span></a>
             </div>
             <p className="hero-note"><span className="note-dot" /> Built around your business. Designed to work without us.</p>
           </div>
@@ -305,7 +301,7 @@ function App() {
                         </div>
                       ))}
                     </div>
-                    <a className="text-link text-link-light" href="#assessment">Turn this into a business brief <span aria-hidden="true">&rarr;</span></a>
+                    <a className="text-link text-link-light" href="#assessment">Discuss this with Forgewell <span aria-hidden="true">&rarr;</span></a>
                   </div>
                 )}
                 <div className="forge-stages" aria-label="Forgewell approach">
@@ -362,18 +358,22 @@ function App() {
           <div className="section-wrap build-grid">
             <div className="build-intro">
               <p className="eyebrow"><span className="eyebrow-line" /> The machinery behind the change</p>
-              <h2 id="build-title">Different tools.<br /><em>One better business.</em></h2>
-              <p>The work starts with what needs to improve. The right combination follows from there.</p>
-              <a className="text-link" href="#assessment">Talk through your situation <span aria-hidden="true">&rarr;</span></a>
+              <h2 id="build-title">Three ways to make work <em>better.</em></h2>
+              <p>Start with the business problem. We’ll shape the right combination of digital, workflow, and operational work around it.</p>
+              <a className="text-link" href="#assessment">Tell us what you need <span aria-hidden="true">&rarr;</span></a>
             </div>
             <div className="service-list">
-              {serviceRows.map(([label, description], index) => (
-                <div className="service-row" key={label}>
+              {serviceRows.map((service, index) => (
+                <a className="service-row" href="#assessment" key={service.title} aria-label={`Discuss ${service.title.toLowerCase()} services with Forgewell`}>
                   <span className="service-number">0{index + 1}</span>
-                  <h3>{label}</h3>
-                  <p>{description}</p>
+                  <div className="service-copy">
+                    <span className="service-audience">{service.audience}</span>
+                    <h3>{service.title}</h3>
+                    <p>{service.problem}</p>
+                    <small>{service.deliverables}</small>
+                  </div>
                   <span className="service-arrow" aria-hidden="true">&rarr;</span>
-                </div>
+                </a>
               ))}
             </div>
           </div>
@@ -444,51 +444,43 @@ function App() {
         <section className="assessment-section section-wrap" id="assessment" aria-labelledby="assessment-title">
           <div className="assessment-intro">
             <p className="eyebrow"><span className="eyebrow-line" /> Your next useful step</p>
-            <h2 id="assessment-title">Get clear on what <em>needs to change.</em></h2>
-            <p>Answer a few questions to shape a short working brief. No pitch, no score—just a better starting point for a conversation.</p>
+            <h2 id="assessment-title">Tell us what <em>you need.</em></h2>
+            <p>Share the basics. We’ll use your note to understand the project and what a useful next step could be.</p>
             <div className="consultation-note">
               <span className="consultation-mark" aria-hidden="true">01</span>
-              <div><p><strong>Prefer to talk it through?</strong><br />Focused consultations are available over Zoom or FaceTime. Scope and any fee are agreed before scheduling.</p><a className="text-link" href="#assessment-form">Prepare a consultation brief <span aria-hidden="true">&rarr;</span></a></div>
+              <div><p><strong>Prefer email?</strong><br />You can contact Forgewell directly.</p><a className="email-link" href="mailto:forgewellbst@gmail.com">forgewellbst@gmail.com</a></div>
             </div>
           </div>
           <div className="assessment-form-wrap">
-            <form className="assessment-form" id="assessment-form" onSubmit={handleAssessment}>
-              <label htmlFor="stage">Where is the business right now?</label>
-              <select id="stage" name="stage" required defaultValue="">
-                <option value="" disabled>Select a stage</option>
-                <option>Starting</option><option>Already operating</option><option>Growing</option><option>Scaling</option><option>Owner-dependent</option>
-              </select>
-
-              <label htmlFor="priority">What would you most like to improve?</label>
-              <select id="priority" name="priority" required defaultValue="">
-                <option value="" disabled>Select a priority</option>
-                <option>Reduce repetitive manual work</option><option>Make the business less owner-dependent</option><option>Connect tools and information</option><option>Support growth with better systems</option><option>Build or improve a website</option><option>Something else</option>
-              </select>
-
-              <label htmlFor="friction">Where does work get stuck?</label>
-              <textarea id="friction" name="friction" rows={3} placeholder="A recurring task, handoff, or question that takes more effort than it should." required />
-
+            <form className="assessment-form inquiry-form" id="assessment-form" onSubmit={handleInquiry}>
               <div className="form-pair">
-                <div><label htmlFor="timeline">When are you hoping to act?</label><select id="timeline" name="timeline" required defaultValue=""><option value="" disabled>Choose a timeline</option><option>As soon as practical</option><option>Within the next few months</option><option>Later this year</option><option>Still exploring</option></select></div>
-                <div><label htmlFor="meeting">Meeting preference</label><select id="meeting" name="meeting" required defaultValue=""><option value="" disabled>Choose a format</option><option>Zoom</option><option>FaceTime</option><option>No preference</option></select></div>
+                <div><label htmlFor="inquiry-name">Name</label><input id="inquiry-name" name="name" autoComplete="name" required /></div>
+                <div><label htmlFor="inquiry-email">Email address</label><input id="inquiry-email" name="email" type="email" autoComplete="email" required /></div>
               </div>
-              <label htmlFor="investment">Investment conversation</label><select id="investment" name="investment" required defaultValue=""><option value="" disabled>Choose one</option><option>I have a range in mind</option><option>I need help understanding scope</option><option>I am still exploring options</option></select>
-              <button className="button button-dark form-submit" type="submit">Prepare my brief <span aria-hidden="true">&rarr;</span></button>
-              <p className="form-disclosure">Your answers stay in this browser. This assessment prepares a brief; it does not submit personal information.</p>
+              <label htmlFor="inquiry-service">What kind of help do you need?</label>
+              <select id="inquiry-service" name="service" required defaultValue="">
+                <option value="" disabled>Select a service area</option>
+                {inquiryServices.map((service) => <option key={service}>{service}</option>)}
+              </select>
+              <label htmlFor="inquiry-project">What are you trying to build or improve?</label>
+              <textarea id="inquiry-project" name="project" rows={4} minLength={12} maxLength={1600} placeholder="A few sentences about the challenge, what you have in mind, or where work gets stuck." required />
+              <details className="optional-details">
+                <summary>Optional project details <span aria-hidden="true">+</span></summary>
+                <div className="optional-fields">
+                  <div className="form-pair">
+                    <div><label htmlFor="inquiry-business">Business name</label><input id="inquiry-business" name="business" autoComplete="organization" /></div>
+                    <div><label htmlFor="inquiry-website">Current website</label><input id="inquiry-website" name="website" type="url" placeholder="https://" /></div>
+                  </div>
+                  <div className="form-pair">
+                    <div><label htmlFor="inquiry-budget">Approximate investment range</label><input id="inquiry-budget" name="budget" placeholder="Optional" /></div>
+                    <div><label htmlFor="inquiry-timeline">Desired timeline</label><select id="inquiry-timeline" name="timeline" defaultValue=""><option value="">Still exploring</option><option>As soon as practical</option><option>Within 1–3 months</option><option>Within 3–6 months</option><option>Later</option></select></div>
+                  </div>
+                </div>
+              </details>
+              <button className="button button-dark form-submit" type="submit">Prepare email draft <span aria-hidden="true">&rarr;</span></button>
+              <p className="form-disclosure">This opens a prefilled draft in your email app. Nothing is sent until you choose Send.</p>
             </form>
-            {assessment && (
-              <div className="assessment-result" aria-live="polite">
-                <div className="result-topline"><span>YOUR WORKING BRIEF</span><span>READY</span></div>
-                <p><b>Business stage</b>{assessment.stage}</p>
-                <p><b>Priority</b>{assessment.priority}</p>
-                <p><b>Where work gets stuck</b>{assessment.friction}</p>
-                <p><b>Timeline</b>{assessment.timeline}</p>
-                <p><b>Meeting preference</b>{assessment.meeting}</p>
-                <p><b>Investment conversation</b>{assessment.investment}</p>
-                <button className="text-link copy-button" type="button" onClick={copyAssessment}>Copy brief <span aria-hidden="true">&rarr;</span></button>
-                {copyMessage && <p className="copy-message" role="status">{copyMessage}</p>}
-              </div>
-            )}
+            {inquiryDraft && <p className="inquiry-draft-status" role="status">Draft ready. Review it in your email app, then send it to Forgewell. <a href={inquiryDraft}>Open email draft <span aria-hidden="true">&rarr;</span></a></p>}
           </div>
         </section>
 
@@ -500,14 +492,14 @@ function App() {
               <details><summary>How does pricing work?<span aria-hidden="true">+</span></summary><p>Work is scoped around the business need, complexity, technology, and timeline. You receive a custom quote before work begins. Maintenance and ongoing strategic support are available, never required.</p></details>
               <details><summary>Will I have to keep Forgewell involved?<span aria-hidden="true">+</span></summary><p>No. Handover and capability-building are part of the work. Ongoing support is an option when it continues to be useful to your business.</p></details>
               <details><summary>Can Forgewell help with business licensing?<span aria-hidden="true">+</span></summary><p>Forgewell can help navigate setup steps and licensing requirements. This is operational assistance, not legal advice.</p></details>
-              <details><summary>What happens after I prepare the brief?<span aria-hidden="true">+</span></summary><p>Use it to clarify your own thinking or bring it to a focused conversation. Consultation timing and any fee are agreed before scheduling.</p></details>
+              <details><summary>What happens after I prepare an inquiry?<span aria-hidden="true">+</span></summary><p>Your email app opens a prefilled message addressed to Forgewell. Review it and press Send there; the website does not transmit your details directly.</p></details>
             </div>
           </div>
         </section>
 
         <section className="final-cta section-wrap" aria-labelledby="final-title">
           <p className="eyebrow"><span className="eyebrow-line" /> Make the next move</p>
-          <div className="final-cta-row"><h2 id="final-title">Build a business that works <em>better.</em></h2><a className="button button-lime" href="#assessment">Start building <span aria-hidden="true">&rarr;</span></a></div>
+          <div className="final-cta-row"><h2 id="final-title">Build a business that works <em>better.</em></h2><a className="button button-lime" href="#assessment">Tell us what you need <span aria-hidden="true">&rarr;</span></a></div>
           <p>Start with the friction. We’ll work out what should come next.</p>
         </section>
       </main>
@@ -518,7 +510,7 @@ function App() {
           <span className="brand-word">Forgewell<span>Business Systems + Technology</span></span>
         </a>
         <p>We Build Better Businesses.</p>
-        <nav aria-label="Footer navigation"><a href="#what-we-build">What we build</a><a href="#how-we-work">How we work</a><a href="#assessment">Start building</a></nav>
+        <nav aria-label="Footer navigation"><a href="#what-we-build">What we build</a><a href="#how-we-work">How we work</a><a href="#assessment">Tell us what you need</a><a href="mailto:forgewellbst@gmail.com">forgewellbst@gmail.com</a></nav>
         <small>© {currentYear} Forgewell. Built with purpose.</small>
       </footer>
     </div>
