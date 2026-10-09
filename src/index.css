@@ -2,22 +2,23 @@
 
 :root {
   font-family: 'Manrope', 'Segoe UI', sans-serif;
-  color: #1e342b;
-  background: #f5f6f0;
+  color: #f3f1eb;
+  background: #0d0e10;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-optical-sizing: auto;
   font-weight: 400;
-  --paper: #f5f6f0;
-  --paper-deep: #e8eee7;
-  --ink: #1e342b;
-  --ink-soft: #526158;
-  --forest: #17372e;
-  --forest-dark: #102a22;
-  --line: #d2d9d0;
-  --coral: #ad4631;
+  --paper: #f3f1eb;
+  --paper-deep: #191b1e;
+  --canvas: #0d0e10;
+  --ink: #f3f1eb;
+  --ink-soft: #b3b2ad;
+  --forest: #121416;
+  --forest-dark: #070809;
+  --line: #37393d;
+  --coral: #ff8066;
   --lime: #d8ea8d;
   --mono: 'DM Mono', Consolas, monospace;
   --display: 'Newsreader', Georgia, serif;
