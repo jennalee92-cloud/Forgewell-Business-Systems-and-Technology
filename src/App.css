@@ -108,7 +108,7 @@ h1 em, h2 em { color: var(--coral); font-family: var(--display); font-weight: 50
 .possibility .eyebrow-line { background: var(--coral); }
 .possibility h2 { max-width: 850px; margin: 29px 0 19px; font-size: 64px; }
 .possibility h2 em { color: var(--lime); }
-.possibility-copy { max-width: 510px; margin-bottom: 42px; font-size: 16px; }
+.possibility-copy { max-width: 620px; margin-bottom: 42px; font-size: 16px; }
 .shift-list { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid rgba(245, 246, 240, .45); }
 .shift-list span { padding: 17px 17px 0 0; color: rgba(245, 246, 240, .8); font-size: 12px; }
 .shift-list b { padding-inline: 7px; color: var(--lime); font-weight: 600; }

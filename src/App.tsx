@@ -226,8 +226,8 @@ function App() {
         <section className="possibility" aria-labelledby="possibility-title">
           <div className="section-wrap possibility-inner">
             <p className="eyebrow"><span className="eyebrow-line" /> The opportunity</p>
-            <h2 id="possibility-title">The business can work <em>better</em> than this.</h2>
-            <p className="possibility-copy">Not through another tool for the sake of it. Through the right structure around the work you already do.</p>
+            <h2 id="possibility-title">Stop working harder to grow. Start building <em>smarter.</em></h2>
+            <p className="possibility-copy">We build the systems, technology, and processes that help your business grow without everything depending on you.</p>
             <div className="shift-list" aria-label="Examples of operational improvements">
               <span>Manual <b>&rarr;</b> Repeatable</span>
               <span>Disconnected <b>&rarr;</b> In sync</span>
