@@ -1,10 +1,11 @@
 import { useRef, useState, type FormEvent } from 'react'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
+import { SiteFooter, SiteHeader } from './SiteChrome'
+import { forgewellProcess } from './site-content'
 import './App.css'
 
 gsap.registerPlugin(useGSAP)
-const currentYear = new Date().getFullYear()
 
 type ChallengeId = 'manual' | 'owner' | 'disconnected' | 'growth'
 const challenges: { id: ChallengeId; title: string; detail: string; response: string }[] = [
@@ -72,18 +73,8 @@ const stages = [
   ['Owner-dependent', 'You built the business. It should not need you for everything.'],
 ]
 
-const process = [
-  ['01', 'Discover', 'Understand the business, the people, and the work as it really happens.'],
-  ['02', 'Diagnose', 'Find the constraint behind the visible symptoms.'],
-  ['03', 'Design', 'Choose a solution that fits the goals, existing tools, and constraints.'],
-  ['04', 'Build', 'Put the system, process, or technology into use.'],
-  ['05', 'Empower', 'Make sure the business can own and operate what we build.'],
-  ['06', 'Optimize', 'Improve it as the business and its needs change.'],
-]
-
 function App() {
   const pageRef = useRef<HTMLDivElement>(null)
-  const [menuOpen, setMenuOpen] = useState(false)
   const [selectedChallenges, setSelectedChallenges] = useState<ChallengeId[]>([])
   const [demoView, setDemoView] = useState<'manual' | 'structured'>('manual')
   const [inquiryDraft, setInquiryDraft] = useState('')
@@ -134,36 +125,10 @@ function App() {
   }
 
   const selected = challenges.filter((challenge) => selectedChallenges.includes(challenge.id))
-  const closeMenu = () => setMenuOpen(false)
-
   return (
     <div className="site-shell" ref={pageRef}>
       <a className="skip-link" href="#main">Skip to content</a>
-      <header className="site-header">
-        <a className="brand" href="#top" aria-label="Forgewell home" onClick={closeMenu}>
-          <svg className="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
-            <path d="M5 5h30v7H13v7h17v7H13v9H5z" />
-            <path className="brand-mark-cut" d="M22 26h13v9H22z" />
-          </svg>
-          <span className="brand-word">Forgewell<span>Business Systems + Technology</span></span>
-        </a>
-        <button
-          className="menu-toggle"
-          type="button"
-          aria-expanded={menuOpen}
-          aria-controls="primary-nav"
-          onClick={() => setMenuOpen((open) => !open)}
-        >
-          {menuOpen ? 'Close' : 'Menu'}
-          <span className={`menu-glyph${menuOpen ? ' is-open' : ''}`} aria-hidden="true"><i /><i /></span>
-        </button>
-        <nav id="primary-nav" className={`primary-nav${menuOpen ? ' is-open' : ''}`} aria-label="Primary navigation">
-          <a href="#what-we-build" onClick={closeMenu}>What we build</a>
-          <a href="#how-we-work" onClick={closeMenu}>How we work</a>
-          <a href="#about" onClick={closeMenu}>About</a>
-          <a className="nav-cta" href="#assessment" onClick={closeMenu}>Tell us what you need <span aria-hidden="true">&rarr;</span></a>
-        </nav>
-      </header>
+      <SiteHeader homePage />
 
       <main id="main">
         <section className="hero section-wrap" id="top" aria-labelledby="hero-title">
@@ -407,7 +372,7 @@ function App() {
               <p>We do not arrive with a preselected tool or package. We learn how the business works, find the real constraint, and build from there.</p>
             </div>
             <div className="process-grid">
-              {process.map(([number, title, description]) => (
+              {forgewellProcess.map(([number, title, description]) => (
                 <article className="process-step" key={number}>
                   <span>{number}</span><h3>{title}</h3><p>{description}</p>
                 </article>
@@ -504,15 +469,7 @@ function App() {
         </section>
       </main>
 
-      <footer className="site-footer">
-        <a className="brand footer-brand" href="#top" aria-label="Forgewell home">
-          <svg className="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><path d="M5 5h30v7H13v7h17v7H13v9H5z" /><path className="brand-mark-cut" d="M22 26h13v9H22z" /></svg>
-          <span className="brand-word">Forgewell<span>Business Systems + Technology</span></span>
-        </a>
-        <p>We Build Better Businesses.</p>
-        <nav aria-label="Footer navigation"><a href="#what-we-build">What we build</a><a href="#how-we-work">How we work</a><a href="#assessment">Tell us what you need</a><a href="mailto:forgewellbst@gmail.com">forgewellbst@gmail.com</a></nav>
-        <small>© {currentYear} Forgewell. Built with purpose.</small>
-      </footer>
+      <SiteFooter homePage />
     </div>
   )
 }
